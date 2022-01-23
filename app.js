@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json({ limit: "1mb" }));
 app.use("/api", apiRouter);
-app.listen(process.env.PORT || 5000, () =>
+app.listen(process.env.PORT || 5000, "192.168.86.53", () =>
     console.log(`Backend started on port ${process.env.PORT || 5000}`)
 );
 
@@ -30,7 +30,7 @@ apiRouter.get("/get-crimes", (req, res) => {
         }
         res.json(data);
         console.log("The reponse was successfully sent!");
-        console.log(data)
+        console.log(data);
     });
 });
 
