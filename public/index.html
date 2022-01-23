@@ -8,17 +8,27 @@
     <h1>Hello</h1>
 </head>
 <body>
+    <label for="descriptio">Description</label>
+    <input id="description" />
+    <label for="type">Type</label>
+    <input id="type" />
+    <button id="submit">submit</button>
+
     <script>
-        if ('geolocation' in navigator){
+        document.getElementById('submit').addEventListener('click', event =>{
+            const description = document.getElementById('description').value;
+            const type = document.getElementById('type').value;
+
+            if ('geolocation' in navigator){
             console.log('geolocation available');
             navigator.geolocation.getCurrentPosition(async position => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
-                
-                // document.getElementById('latitude').textContent =lat;
-                // document.getElementById('longitude').textContent =lon;
+                // const type = document.getElementById('type').value;
+                // const description = document.getElementById('description').value;
 
-                const data = {lat,lng};
+
+                const data = {lat,lng, description,type};
                 const options = {
                     method: 'POST',
                     headers: {
@@ -31,14 +41,17 @@
             console.log(json);
             });
       
-    } else {
-            console.log('geolocation not available');
-    }
+            } else {
+                    console.log('geolocation not available');
+            }  
+        });
+       
+
     </script>
-    <div>
-        <!-- <h1 class="status"></h1> -->
+    <!-- <div>
+        <h1 class="status"></h1>
         <button class="find-location">click to get location</button>  
     </div>
-    <!-- <script src="app.js"></script> -->
+    <script src="app.js"></script> -->
 </body>
 </html>
