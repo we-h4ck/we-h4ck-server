@@ -2,6 +2,8 @@ const express = require("express");
 
 const Datastore = require("nedb");
 const cors = require("cors");
+var fs = require("fs");
+var https = require("https");
 
 const apiRouter = express.Router();
 
@@ -11,9 +13,17 @@ app.use(cors());
 app.use(express.static("public"));
 app.use(express.json({ limit: "1mb" }));
 app.use("/api", apiRouter);
-app.listen(process.env.PORT || 5002, () =>
-    console.log(`Backend started on port ${process.env.PORT || 5002}`)
-);
+https
+    .createServer(
+        {
+            key: fs.readFileSync("server.key"),
+            cert: fs.readFileSync("server.cert"),
+        },
+        app
+    )
+    .listen(5002, () => {
+        console.log(`Backend started on port ${process.env.PORT || 5002}`);
+    });
 
 const database = new Datastore("database.db");
 database.loadDatabase();
