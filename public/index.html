@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <h1>Hello</h1>
+</head>
+<body>
+    <script>
+        if ('geolocation' in navigator){
+            console.log('geolocation available');
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                // document.getElementById('latitude').textContent =lat;
+                // document.getElementById('longitude').textContent =lon;
+
+                const data = {lat,lon};
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+            };
+            fetch('/api', options);
+        });
+
+    } else {
+            console.log('geolocation not available');
+    }
+    </script>
+    <div>
+        <!-- <h1 class="status"></h1> -->
+        <button class="find-location">click to get location</button>  
+    </div>
+    <!-- <script src="app.js"></script> -->
+</body>
+</html>
