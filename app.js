@@ -1,90 +1,46 @@
-const express = require('express');
-const Datastore = require('nedb');
+const express = require("express");
+
+const Datastore = require("nedb");
+const cors = require("cors");
+
+const apiRouter = express.Router();
 
 const app = express();
-app.listen(5000, 'localhost', ()=> console.log('listening on 5000'))
-app.use(express.static('public'))
-app.use(express.json({limit: '1mb'}));
 
-const database = new Datastore('database.db');
+app.use(cors());
+app.use(express.static("public"));
+app.use(express.json({ limit: "1mb" }));
+app.use("/api", apiRouter);
+app.listen(process.env.PORT || 5000, () =>
+    console.log(`Backend started on port ${process.env.PORT || 5000}`)
+);
+
+const database = new Datastore("database.db");
 database.loadDatabase();
 
+apiRouter.get("/", (req, res) => {
+    res.redirect("/");
+});
 
-app.get('/api/get-crime',(req,res)=>{
-    database.find({}, (err,data)=>{
-        if(err){
+apiRouter.get("/get-crimes", (req, res) => {
+    database.find({}, (err, data) => {
+        if (err) {
             res.end();
-            return
+            return;
         }
         res.json(data);
-    })
-} );
+        console.log("The reponse was successfully sent!");
+        console.log(data)
+    });
+});
 
-
-app.post('/api/crime', (req, res) => {
-    
+apiRouter.post("/new-crime", (req, res) => {
     const data = req.body;
-    const timestamp = Date.now();
-    data.timestamp = timestamp;
     database.insert(data);
     res.json(data);
-    // res.json({
-    //     status: 'success',
-    //     // type: int,
-    //     // description: string,
-    //     date: timestamp,
-    //     latitude: data.lat,
-    //     longitude: data.lng
-    
-    // })
-} )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const findMyLocation = () => {
-     
-//     const status = document.querySelector('.status');
-
-//     const success = (position) => {
-//         console.log(position)
-        
-
-//     }
-
-//     const error = () => {
-//         status.textContent = 'Cant retrieve location';
-//     }
-
-//     navigator.geolocation.getCurrentPosition(success, error);
-
- 
-
-// }
-
-// document.querySelector('.find-location').addEventListener('click', findMyLocation);
+    console.log(
+        "The crime with the following informations:\n",
+        data,
+        "\nwas successfully created!"
+    );
+});
