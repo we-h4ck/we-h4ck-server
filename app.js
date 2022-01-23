@@ -1,9 +1,16 @@
-const express = require('express');
-const app = express();
+const findMyLocation = () => {
+     
+    const status = document.querySelector('.status');
 
-app.get('/', (req, res) => {
-    res.send("<h1>We are We-h4ck</h1>")
-})
+    const success = (position) => {
+        console.log(position)
+    }
 
+    const error = () => {
+        status.textContent = 'Cant retrieve location';
+    }
+    
+    navigator.geolocation.getCurrentPosition(success, error);
+}
 
-app.listen(5000, () => {console.log("App is running on port 5000")});
+document.querySelector('.find-location').addEventListener('click', findMyLocation);
