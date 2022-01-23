@@ -24,8 +24,7 @@
             navigator.geolocation.getCurrentPosition(async position => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
-                // const type = document.getElementById('type').value;
-                // const description = document.getElementById('description').value;
+            
 
 
                 const data = {lat,lng, description,type};
@@ -48,10 +47,5 @@
        
 
     </script>
-    <!-- <div>
-        <h1 class="status"></h1>
-        <button class="find-location">click to get location</button>  
-    </div>
-    <script src="app.js"></script> -->
 </body>
 </html>
